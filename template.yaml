@@ -47,10 +47,10 @@ spec:
                   type: object
                   properties:
                     Dockerfile:
-                      title: Enter the Path of Dockerfile
+                      title: Enter the Path of Docker-Compose file
                       type: string
-                      description: Enter the Dockerfile path (e.g. build/Dockerfile or enter Dockerfile if it is in root) 
-                      default: "Dockerfile" 
+                      description: Enter the Dockercompose file path (e.g. build/docker-compose.yml or enter docker-compose.yml if it is in root) 
+                      default: "docker-compose.yml" 
                     Port:
                       title: Enter the Port number
                       type: integer
@@ -107,26 +107,27 @@ spec:
       input:
         cwd: ${{ steps.clone.output.path }}
         command: docker 
-        args: ["build", "-f", "${{ parameters.extraFields.Dockerfile }}", "-t", "my-image:latest", "."]
+        args: ["docker-compose", "up", "--build"]
+        # args: ["build", "-f", "${{ parameters.extraFields.Dockerfile }}", "-t", "my-image:latest", "."]
 
 
-    - id: cleanup
-      name: Remove old container if exists
-      if: ${{ parameters.stack == 'Docker' }}
-      action: shell:run
-      input:
-        command: docker
-        args: ["rm", "-f", "Cafe-container"]
+    # - id: cleanup
+    #   name: Remove old container if exists
+    #   if: ${{ parameters.stack == 'Docker' }}
+    #   action: shell:run
+    #   input:
+    #     command: docker
+    #     args: ["rm", "-f", "Cafe-container"]
                 
 
-    - id: deploy_docker
-      name: Deploy Docker Container
-      if: ${{ parameters.stack == 'Docker' }}
-      action: shell:run
-      input:
-        cwd: ${{ steps.clone.output.path }}
-        command: docker
-        args: ["run", "--name", "Cafe-container", "-it", "-d", "-p", "89:${{ parameters.extraFields.Port }}", "my-image:latest"] 
+    # - id: deploy_docker
+    #   name: Deploy Docker Container
+    #   if: ${{ parameters.stack == 'Docker' }}
+    #   action: shell:run
+    #   input:
+    #     cwd: ${{ steps.clone.output.path }}
+    #     command: docker
+    #     args: ["run", "--name", "Cafe-container", "-it", "-d", "-p", "89:${{ parameters.extraFields.Port }}", "my-image:latest"] 
 
     - id: fetch
       name: Fetch GitHub Repo
