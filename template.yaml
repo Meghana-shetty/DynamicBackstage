@@ -47,7 +47,7 @@ spec:
                   type: object
                   properties:
                     Dockerfile:
-                      title: Enter the Path of Docker-Compose file2
+                      title: Enter the Path of Docker-Compose file3
                       type: string
                       description: Enter the Dockercompose file path (e.g. build/docker-compose.yml or enter docker-compose.yml if it is in root) 
                       default: "docker-compose.yml" 
