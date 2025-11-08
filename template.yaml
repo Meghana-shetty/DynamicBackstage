@@ -121,6 +121,23 @@ spec:
             ls -l /var/run/docker.sock || echo "No socket found"
             docker ps || echo "Cannot connect to Docker daemon"
 
+    - id: run_compose
+      name: Run Docker Compose
+      action: shell:run
+      input:
+        cwd: ${{ steps.fetch-template.output.path }}
+        command: bash
+        args:
+          - -c
+          - |
+            echo "🐳 Current dir: $(pwd)"
+            echo "📂 Listing files before running compose:"
+            ls -la
+            echo "⚙️ Starting docker compose up..."
+            DOCKER_HOST=unix:///var/run/docker.sock docker compose -f docker-compose.yml -f docker-compose.override.yml up --build --force-recreate --remove-orphans 2>&1
+            echo "✅ Docker compose finished with exit code $?"
+
+
         
     
     - id: build_docker
