@@ -187,7 +187,7 @@ spec:
       input:
         cwd: ${{ steps.clone.output.path }}
         command: docker
-        args: ["compose", "up", "--build", "-d"]
+        args: ["compose", "up"]
           # - -c
           # - |
           #   echo "🛠️ Running docker-compose build..."
