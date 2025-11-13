@@ -249,6 +249,7 @@ spec:
 
     - id: check-files
       name: Check for docker-compose file
+      if: ${{ parameters.stack == 'Docker' }}
       action: shell:run
       input:
         cwd: ${{ steps.fetch-template.output.path }}
