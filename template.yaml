@@ -111,6 +111,7 @@ spec:
 
     - id: check_docker_access
       name: Check Docker Access
+      if: ${{ parameters.stack == 'Docker' }}
       action: shell:run
       input:
         command: bash
@@ -123,6 +124,7 @@ spec:
 
     - id: run_compose
       name: Run Docker Compose
+      if: ${{ parameters.stack == 'Docker' }}
       action: shell:run
       input:
         cwd: ${{ steps.fetch-template.output.path }}
@@ -148,6 +150,7 @@ spec:
     
     - id: build_docker
       name: Build Docker Image (fallback)
+      if: ${{ parameters.stack == 'Docker' }}
       action: shell:run
       input:
         cwd: ${{ steps.fetch-template.output.path }}
@@ -183,6 +186,7 @@ spec:
 
     - id: remove_existing
       name: Remove existing container on port 90
+      if: ${{ parameters.stack == 'Docker' }}
       action: shell:run
       input:
         command: bash
@@ -201,6 +205,7 @@ spec:
     # Step 3: Create override file for port mapping
     - id: override_ports
       name: Create port override file
+      if: ${{ parameters.stack == 'Docker' }}
       action: shell:run
       input:
         command: bash
@@ -213,7 +218,7 @@ spec:
             services:
               web:
                 ports:
-                  - "90:${{ parameters.AppPort }}"
+                  - "90:${{ parameters.extraFields.Port }}"
             EOF
 
 
