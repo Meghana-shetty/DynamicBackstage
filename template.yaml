@@ -136,7 +136,7 @@ spec:
             echo "📂 Listing files before running compose:"
             ls -la
             echo "⚙️ Starting docker compose up..."
-            DOCKER_HOST=unix:///var/run/docker.sock docker compose -f docker-compose.yml -f docker-compose.override.yml up -d --build --force-recreate --remove-orphans
+            DOCKER_HOST=unix:///var/run/docker.sock docker compose -f docker-compose.yml up -d --build --force-recreate --remove-orphans
             echo "✅ Docker compose finished with exit code $?"
             # echo "🐳 Current dir: $(pwd)"
             # echo "📂 Listing files before running compose:"
