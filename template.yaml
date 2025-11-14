@@ -107,7 +107,7 @@ spec:
       action: fetch:plain
       input:
         url: ${{ parameters.Github_URL }}
-        targetPath: template
+        targetPath: .
         #targetPath: .
         #cloneDirName: false 
 
