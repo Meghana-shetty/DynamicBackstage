@@ -137,26 +137,23 @@ spec:
         args:
           - -c
           - |
-            echo "Checking docker-compose file availability:"
-            ls -la
+            set -e
+            echo "Running Docker Compose..."
     
-            echo "-------------------------------------------"
-            echo "Running docker compose with full debug logs"
-            echo "-------------------------------------------"
-    
-            docker compose -f "${{ parameters.extraFields.Dockerfile }}" up --build 2>&1 || {
+            if ! docker compose -f docker-compose.yml up --build; then
               echo "❌ Docker Compose FAILED"
-              echo "🔍 Printing docker info:"
-              docker info || echo "Docker daemon not reachable"
+              echo "🔍 Docker info:"
+              docker info || true
     
-              echo "🔍 Printing docker version:"
+              echo "🔍 Docker version:"
               docker version || true
     
-              echo "🔍 Printing compose file:"
-              cat "${{ parameters.extraFields.Dockerfile }}" || echo "File not found!"
+              echo "🔍 Compose file content:"
+              cat docker-compose.yml || true
     
               exit 1
-            }
+            fi
+
 
 
     
