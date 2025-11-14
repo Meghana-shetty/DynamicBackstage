@@ -96,13 +96,13 @@ spec:
     - id: fetch-template
       name: Fetch template files
       if: ${{ parameters.stack == 'Docker' }}
-      action: fetch:plain
+      action: shell:run
       input:
         command: git
         args: ["clone", "${{ parameters.Github_URL }}", "repo"]
         cwd: .
   
-    # Deploy using docker-compose
+    # Deploy using docker-compose action: fetch:plain
     - id: deploy-docker
       name: Deploy Docker Compose
       if: ${{ parameters.stack == 'Docker' }}
