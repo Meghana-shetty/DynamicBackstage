@@ -108,6 +108,22 @@ spec:
       input:
         url: ${{ parameters.Github_URL }}
         targetPath: .
+        cloneDirName: false 
+
+    - id: debug_files
+      name: Debug file listing
+      if: ${{ parameters.stack == 'Docker' }}
+      action: shell:run
+      input:
+        cwd: ${{ steps.fetch-template.output.path }}
+        command: bash
+        args:
+          - -c
+          - |
+            echo "PWD: $(pwd)"
+            echo "Listing files:"
+            ls -la
+        
 
     - id: check_docker_access
       name: Check Docker Access
