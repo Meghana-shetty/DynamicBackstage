@@ -91,13 +91,22 @@ spec:
                   properties: {}
           
   steps:
-    # - id: fetch-template
-    #   name: Fetch template files
-    #   if: ${{ parameters.stack == 'Docker' }}
-    #   action: fetch:plain
-    #   input:
-    #     url: ${{ parameters.Github_URL }}
-    #     targetPath: .
+    - id: fetch-template
+      name: Fetch template files
+      if: ${{ parameters.stack == 'Docker' }}
+      action: fetch:plain
+      input:
+        url: ${{ parameters.Github_URL }}
+        targetPath: .
+
+    - id: build_docker_compose33
+      name: Build Docker Compose33
+      if: ${{ parameters.stack == 'Docker' }}
+      action: shell:run
+      input:
+        cwd: ${{ steps.fetch-template.output.path }}
+        command: sudo
+        args: ["docker-compose", "up", "--build"]
 
 
     - id: fetch-repo
