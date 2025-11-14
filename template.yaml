@@ -127,6 +127,37 @@ spec:
             pwd
             ls -la
 
+    - id: build_docker_compose22
+      name: Build Docker Compose
+      if: ${{ parameters.stack == 'Docker' }}
+      action: shell:run
+      input:
+        cwd: repo
+        command: bash
+        args:
+          - -eo
+          - pipefail
+          - -c
+          - |
+              echo "--- Running Docker Compose ---"
+    
+              docker compose -f docker-compose.yml up --build
+              exit_code=$?
+    
+              echo "=== Docker compose exited with: $exit_code ==="
+    
+              echo "--- Docker info ---"
+              docker info || true
+    
+              echo "--- Docker version ---"
+              docker version || true
+    
+              echo "--- Compose file ---"
+              cat docker-compose.yml || true
+    
+              exit $exit_code
+
+
     - id: build_docker
       name: Build Docker Compose
       if: ${{ parameters.stack == 'Docker' }}
