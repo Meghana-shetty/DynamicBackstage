@@ -100,8 +100,8 @@ spec:
         args:
           - "-c"
           - |
-            mkdir -p /opt/user-repos/${{ parameters.DeploymentName }}
-            git clone ${{ parameters.Github_URL }} /opt/user-repos/${{ parameters.DeploymentName }}
+            mkdir -p /opt/user-repos/temp_folder
+            git clone ${{ parameters.Github_URL }} /opt/user-repos/temp_folder
   
     # Step 2: Validate docker-compose.yml exists
     - id: validate-compose
@@ -112,11 +112,11 @@ spec:
         args:
           - "-c"
           - |
-            if [ ! -f /opt/user-repos/${{ parameters.DeploymentName }}/docker-compose.yml ]; then
+            if [ ! -f /opt/user-repos/temp_folder/docker-compose.yml ]; then
               echo "docker-compose.yml not found!"
               exit 1
             fi
-            docker-compose -f /opt/user-repos/${{ parameters.DeploymentName }}/docker-compose.yml config
+            docker-compose -f /opt/user-repos/temp_folder/docker-compose.yml config
   
     # Step 3: Deploy docker-compose (detached)
     - id: deploy-compose
@@ -127,7 +127,7 @@ spec:
         args:
           - "-c"
           - |
-            cd /opt/user-repos/${{ parameters.DeploymentName }}
+            cd /opt/user-repos/temp_folder
             docker-compose up --build -d || \
             (echo "Deployment failed, showing logs..." && docker-compose logs)
   
@@ -137,6 +137,7 @@ spec:
       action: shell:run
       input:
         command: docker
+        args: ["ps"]
 
     #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # - id: fetch-template
