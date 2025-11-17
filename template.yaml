@@ -100,7 +100,7 @@ spec:
 
   output:
     links:
-      - title: "Open Website"
+      - title: "Open Website deployed from Ansible"
         if: ${{ parameters.stack == 'Baremetal' }}
         url: "172.18.181.50"
         icon: "website"
