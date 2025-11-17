@@ -104,6 +104,8 @@ spec:
       action: custom:docker-compose
       input:
         composeFile: docker-compose.yml
+        workDir: .
+        #composeFile: docker-compose.yml
 
     - id: run-docker-compose
       name: Run Docker Compose
