@@ -104,7 +104,7 @@ spec:
       action: custom:docker-compose
       input:
         composeFile: docker-compose.yml
-        workDir: .
+        workDir: ${{ workspace }}
       #action: custom:run-docker-compose
       # action: custom:docker-compose
       # input:
