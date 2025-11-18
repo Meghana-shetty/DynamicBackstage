@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: Github-pages-deploy-from-github-test
-  title: Backstage Driven Internal Developer Platform - Dynamic-2
+  title: Backstage Driven Internal Developer Platform - Dynamic-3
   description: Automates dynamic website deployment using Docker containers and Ansible.
 spec:
   owner: user:guest
@@ -87,7 +87,7 @@ spec:
       action: fetch:plain
       input:
         url: ${{ parameters.Github_URL }}
-        targetPath: ./
+        targetPath: ./template
 
     - id: deploy-compose
       name: Deploy using Docker Compose
