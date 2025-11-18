@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: Github-pages-deploy-from-github-test
-  title: Backstage Driven Internal Developer Platform - Dynamic-test
+  title: Backstage Driven Internal Developer Platform - Dynamic-1
   description: Automates dynamic website deployment using Docker containers and Ansible.
 spec:
   owner: user:guest
@@ -69,6 +69,18 @@ spec:
           
   steps:
 
+    - id: start-timer
+      name: Capture Start Time
+      if: ${{ parameters.stack == 'Docker' }}
+      action: shell:run
+      input:
+        command: bash
+        args:
+          - -c
+          - |
+            date +%s > start_time.txt
+            echo "Start time recorded"
+
     - id: fetch-template
       name: Fetch template files
       action: fetch:plain
@@ -83,7 +95,20 @@ spec:
       input:
         composeFile: "${{ parameters.extraFields.Dockerfile }}"
         workDir: ${{ workspace }}
-
+    - id: end-timer
+      name: Calculate Execution Time
+      if: ${{ parameters.stack == 'Docker' }}
+      action: shell:run
+      input:
+        command: bash
+        args:
+          - -c
+          - |
+            end=$(date +%s)
+            start=$(cat start_time.txt)
+            duration=$(( end - start ))
+            echo $duration > duration.txt
+            echo "Total Execution Time: $duration seconds"
     - id: Run Playbook
       name: Run Playbook
       if: ${{ parameters.stack == 'Baremetal' }}
@@ -98,3 +123,6 @@ spec:
         if: ${{ parameters.stack == 'Baremetal' }}
         url: "http://172.18.181.50"
         icon: "website"
+    text:
+      - title: Total Execution Time
+        text: "The workflow took ${{ steps.end-timer.output.stdout }} seconds"
