@@ -1,3 +1,5 @@
+// index.ts
+
 import { createBackend } from '@backstage/backend-defaults';
 
 // custom modules
